@@ -8,6 +8,35 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="shortcut icon" href="favicon.ico">
+
+  <style>
+    .events-grid { display:grid; gap:1rem; margin-top:1.5rem; }
+    .event-card {
+      display:grid; grid-template-columns:86px 1fr; gap:1.25rem; align-items:start;
+      padding:1.25rem; background:#fff; border:1px solid rgba(0,0,0,.08);
+      border-radius:18px; box-shadow:0 8px 24px rgba(0,0,0,.05);
+    }
+    .event-date {
+      display:grid; place-items:center; align-content:center; min-height:78px;
+      padding:.6rem; border-radius:14px; background:#eef8f3; text-align:center;
+    }
+    .event-date strong { display:block; font-size:1.55rem; line-height:1; }
+    .event-date span {
+      display:block; margin-top:.35rem; font-size:.8rem; font-weight:700; text-transform:uppercase;
+    }
+    .event-content h3 { margin:0 0 .35rem; }
+    .event-meta { margin:0 0 .65rem; font-size:.92rem; opacity:.78; }
+    .event-description { margin:0; }
+    .events-empty, .events-error {
+      margin-top:1.25rem; padding:1rem 1.1rem; border-radius:12px; background:rgba(0,0,0,.04);
+    }
+    .events-error { background:#fff3f3; }
+    @media (max-width:640px) {
+      .event-card { grid-template-columns:68px 1fr; gap:.9rem; }
+      .event-date { min-height:68px; }
+    }
+  </style>
+
 </head>
 <body>
   <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
@@ -22,6 +51,7 @@
         <a href="#ueber-uns">Über uns</a>
         <a href="#projekte">Was wir fördern</a>
         <a href="#aktivitaeten">Aktivitäten</a>
+        <a href="#termine">Termine</a>
         <a href="#unterstuetzen">Unterstützen</a>
         <a href="#downloads">Downloads</a>
         <a href="#kontakt">Kontakt</a>
@@ -136,6 +166,20 @@
               <p>Beide Abschlussklassen erhielten einen finanziellen Beitrag des Fördervereins für eine kleine gemeinsame Feier.</p>
             </div>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="termine" class="section section-soft">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Aktuelle Termine</p>
+          <h2>Was demnächst ansteht</h2>
+          <p>Hier finden Sie die nächsten öffentlichen Termine des Fördervereins.</p>
+        </div>
+
+        <div id="events-list" class="events-grid" aria-live="polite">
+          <div class="events-empty">Termine werden geladen …</div>
         </div>
       </div>
     </section>
@@ -266,6 +310,111 @@
       button.setAttribute('aria-expanded', 'false');
       nav.classList.remove('open');
     }));
+
+
+    const SUPABASE_URL = 'https://facmeyitnpnwidpsemkd.supabase.co';
+    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_zqh5bliEkvKU7yKelDAgmg_2buBOvyM';
+
+    const eventCategoryLabels = {
+      vorstand: 'Vorstand',
+      mitgliederversammlung: 'Mitgliederversammlung',
+      schulveranstaltung: 'Schulveranstaltung',
+      aktion: 'Aktion',
+      sonstiges: 'Sonstiges'
+    };
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function formatEventDate(dateValue) {
+      const date = new Date(`${dateValue}T00:00:00`);
+      return {
+        day: new Intl.DateTimeFormat('de-DE', { day: '2-digit' }).format(date),
+        month: new Intl.DateTimeFormat('de-DE', { month: 'short' }).format(date),
+        full: new Intl.DateTimeFormat('de-DE', {
+          weekday: 'long',
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        }).format(date)
+      };
+    }
+
+    function formatEventTime(value) {
+      return value ? value.slice(0, 5) : '';
+    }
+
+    async function loadPublicEvents() {
+      const list = document.getElementById('events-list');
+      if (!list) return;
+
+      if (SUPABASE_PUBLISHABLE_KEY.startsWith('HIER_')) {
+        list.innerHTML = '<div class="events-error">Die Terminanzeige ist noch nicht vollständig eingerichtet.</div>';
+        return;
+      }
+
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/get_public_events`, {
+          method: 'POST',
+          headers: {
+            apikey: SUPABASE_PUBLISHABLE_KEY,
+            Authorization: `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
+            'Content-Type': 'application/json'
+          },
+          body: '{}'
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const events = await response.json();
+
+        if (!Array.isArray(events) || events.length === 0) {
+          list.innerHTML = '<div class="events-empty">Aktuell sind keine öffentlichen Termine eingetragen.</div>';
+          return;
+        }
+
+        list.innerHTML = events.map(item => {
+          const date = formatEventDate(item.event_date);
+          const start = formatEventTime(item.start_time);
+          const end = formatEventTime(item.end_time);
+          const timeText = start ? `${start} Uhr${end ? ` – ${end} Uhr` : ''}` : '';
+          const meta = [
+            date.full,
+            timeText,
+            item.location || '',
+            eventCategoryLabels[item.category] || ''
+          ].filter(Boolean).map(escapeHtml).join(' · ');
+
+          return `
+            <article class="event-card">
+              <div class="event-date" aria-hidden="true">
+                <strong>${escapeHtml(date.day)}</strong>
+                <span>${escapeHtml(date.month)}</span>
+              </div>
+              <div class="event-content">
+                <h3>${escapeHtml(item.title)}</h3>
+                <p class="event-meta">${meta}</p>
+                ${item.description ? `<p class="event-description">${escapeHtml(item.description)}</p>` : ''}
+              </div>
+            </article>
+          `;
+        }).join('');
+      } catch (error) {
+        console.error('Termine konnten nicht geladen werden:', error);
+        list.innerHTML = '<div class="events-error">Die Termine konnten gerade nicht geladen werden. Bitte versuchen Sie es später erneut.</div>';
+      }
+    }
+
+    loadPublicEvents();
+
   </script>
 </body>
 </html>
