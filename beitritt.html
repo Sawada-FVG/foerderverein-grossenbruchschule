@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta
+    name="description"
+    content="Digitaler Antrag auf Mitgliedschaft im Förderverein der Großenbruchschule Essen e.V."
+  >
+  <meta name="robots" content="noindex,nofollow">
+  <title>Mitglied werden | Förderverein der Großenbruchschule Essen e.V.</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+
+  <style>
+    .membership-intro {
+      max-width: 760px;
+      margin-bottom: 32px;
+    }
+
+    .membership-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .membership-form,
+    .membership-aside {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 10px 24px rgba(36,34,51,.045);
+    }
+
+    .membership-form {
+      padding: 30px;
+    }
+
+    .membership-aside {
+      padding: 26px;
+      position: sticky;
+      top: 108px;
+    }
+
+    .membership-aside h2 {
+      margin-top: 0;
+      font-size: 1.3rem;
+    }
+
+    .membership-aside p,
+    .membership-aside li {
+      color: var(--muted);
+    }
+
+    .form-section {
+      padding: 0 0 30px;
+      margin: 0 0 30px;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .form-section:last-of-type {
+      border-bottom: 0;
+      margin-bottom: 16px;
+      padding-bottom: 0;
+    }
+
+    .form-section legend {
+      width: 100%;
+      padding: 0;
+      margin-bottom: 18px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #25202d;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .form-field-full {
+      grid-column: 1 / -1;
+    }
+
+    .form-field label {
+      font-weight: 750;
+      color: #37313c;
+    }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #cfc8d1;
+      border-radius: 12px;
+      background: #fff;
+      color: #25202d;
+      font: inherit;
+      padding: 12px 13px;
+    }
+
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      outline: 3px solid rgba(30,153,168,.14);
+      border-color: var(--teal);
+    }
+
+    .field-help {
+      margin: 0;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .children-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .child-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+      background: #fcfbfc;
+    }
+
+    .child-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .child-card-head h3 {
+      margin: 0;
+      font-size: 1.08rem;
+    }
+
+    .remove-child {
+      border: 0;
+      background: transparent;
+      color: var(--plum);
+      font: inherit;
+      font-weight: 750;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    .children-actions {
+      margin-top: 18px;
+    }
+
+    button.button {
+      cursor: pointer;
+      font: inherit;
+    }
+
+    button.button:disabled {
+      cursor: wait;
+      opacity: .65;
+      transform: none;
+    }
+
+    .privacy-check {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      align-items: start;
+      margin: 20px 0;
+    }
+
+    .privacy-check input {
+      margin-top: 4px;
+    }
+
+    .form-status {
+      display: none;
+      margin-top: 22px;
+      padding: 16px 18px;
+      border-radius: 14px;
+      line-height: 1.55;
+    }
+
+    .form-status.visible {
+      display: block;
+    }
+
+    .form-status.success {
+      background: #eef8f3;
+      border: 1px solid #b9dfcd;
+      color: #174d39;
+    }
+
+    .form-status.error {
+      background: #fff3f3;
+      border: 1px solid #efc5c5;
+      color: #7c2424;
+    }
+
+    .honeypot {
+      position: absolute !important;
+      left: -10000px !important;
+      width: 1px !important;
+      height: 1px !important;
+      overflow: hidden !important;
+    }
+
+    @media (max-width: 900px) {
+      .membership-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .membership-aside {
+        position: static;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .membership-form {
+        padding: 22px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-field-full {
+        grid-column: auto;
+      }
+
+      .child-card {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a
+        class="brand"
+        href="index.html"
+        aria-label="Startseite Förderverein der Großenbruchschule"
+      >
+        <img
+          src="logo-foerderverein.png"
+          alt="Logo des Fördervereins der Großenbruchschule"
+        >
+        <span>
+          Förderverein<br>
+          <strong>Großenbruchschule</strong>
+        </span>
+      </a>
+
+      <button
+        class="menu-button"
+        aria-expanded="false"
+        aria-controls="nav"
+      >
+        Menü
+      </button>
+
+      <nav id="nav" class="nav" aria-label="Hauptnavigation">
+        <a href="index.html#ueber-uns">Über uns</a>
+        <a href="index.html#projekte">Was wir fördern</a>
+        <a href="index.html#aktivitaeten">Aktivitäten</a>
+        <a href="index.html#termine">Termine</a>
+        <a href="index.html#unterstuetzen">Unterstützen</a>
+        <a href="index.html#downloads">Downloads</a>
+        <a href="index.html#kontakt">Kontakt</a>
+        <a class="button button-small" href="beitritt.html">Mitglied werden</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="inhalt">
+    <section class="section section-soft">
+      <div class="container">
+        <div class="membership-intro">
+          <p class="eyebrow">Mitgliedschaft</p>
+          <h1>Online Mitglied werden</h1>
+          <p class="lead">
+            Unterstützen Sie die Arbeit des Fördervereins dauerhaft.
+            Der Mindestbeitrag beträgt 12 € pro Schuljahr.
+          </p>
+          <p>
+            Nach dem Absenden erhalten Sie eine E-Mail zur Bestätigung Ihrer
+            E-Mail-Adresse. Erst nach dieser Bestätigung wird Ihr Antrag an
+            den Förderverein übermittelt.
+          </p>
+        </div>
+
+        <div class="membership-layout">
+          <form id="membership-form" class="membership-form" novalidate>
+            <fieldset class="form-section">
+              <legend>Ihre Angaben</legend>
+
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="first-name">Vorname *</label>
+                  <input
+                    id="first-name"
+                    name="first_name"
+                    type="text"
+                    autocomplete="given-name"
+                    maxlength="100"
+                    required
+                  >
+                </div>
+
+                <div class="form-field">
+                  <label for="last-name">Nachname *</label>
+                  <input
+                    id="last-name"
+                    name="last_name"
+                    type="text"
+                    autocomplete="family-name"
+                    maxlength="100"
+                    required
+                  >
+                </div>
+
+                <div class="form-field form-field-full">
+                  <label for="email">E-Mail-Adresse *</label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    maxlength="254"
+                    required
+                  >
+                  <p class="field-help">
+                    An diese Adresse senden wir den Bestätigungslink.
+                  </p>
+                </div>
+
+                <div class="form-field">
+                  <label for="annual-fee">Jahresbeitrag in € *</label>
+                  <input
+                    id="annual-fee"
+                    name="annual_fee"
+                    type="number"
+                    inputmode="decimal"
+                    min="12"
+                    max="10000"
+                    step="0.01"
+                    value="12"
+                    required
+                  >
+                  <p class="field-help">Mindestbeitrag: 12 € pro Schuljahr.</p>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-section">
+              <legend>Kind / Kinder</legend>
+
+              <p class="field-help">
+                Bitte geben Sie mindestens ein und höchstens fünf Kinder an.
+              </p>
+
+              <div id="children-list" class="children-list"></div>
+
+              <div class="children-actions">
+                <button
+                  id="add-child"
+                  class="button button-secondary"
+                  type="button"
+                >
+                  Weiteres Kind hinzufügen
+                </button>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-section">
+              <legend>Weitere Angaben</legend>
+
+              <div class="form-field">
+                <label for="notes">Mitteilung an den Förderverein</label>
+                <textarea
+                  id="notes"
+                  name="notes"
+                  rows="4"
+                  maxlength="1000"
+                ></textarea>
+                <p class="field-help">
+                  Optional. Bitte keine unnötigen sensiblen Angaben eintragen.
+                </p>
+              </div>
+            </fieldset>
+
+            <div class="honeypot" aria-hidden="true">
+              <label for="website">Website</label>
+              <input
+                id="website"
+                name="website"
+                type="text"
+                tabindex="-1"
+                autocomplete="off"
+              >
+            </div>
+
+            <label class="privacy-check">
+              <input id="privacy" type="checkbox" required>
+              <span>
+                Ich habe die
+                <a href="datenschutz.html" target="_blank" rel="noopener">
+                  Datenschutzhinweise
+                </a>
+                zur Kenntnis genommen. *
+              </span>
+            </label>
+
+            <button id="submit-button" class="button" type="submit">
+              Beitrittsantrag absenden
+            </button>
+
+            <div
+              id="form-status"
+              class="form-status"
+              role="status"
+              aria-live="polite"
+            ></div>
+          </form>
+
+          <aside class="membership-aside">
+            <h2>So geht es weiter</h2>
+            <ol>
+              <li>Beitrittsantrag ausfüllen und absenden.</li>
+              <li>Bestätigungs-E-Mail öffnen.</li>
+              <li>E-Mail-Adresse über den Link bestätigen.</li>
+              <li>Erst dann erhält der Förderverein Ihren Antrag.</li>
+            </ol>
+
+            <p>
+              Sie möchten lieber das bisherige Formular verwenden?
+            </p>
+
+            <a
+              class="button button-secondary"
+              href="Beitrittserklaerung_Foerderverein_Grossenbruchschule.pdf"
+              target="_blank"
+              rel="noopener"
+            >
+              PDF-Beitrittserklärung
+            </a>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>Förderverein der Großenbruchschule Essen e.V.</strong>
+        <p>Gemeinsam mehr bewegen – stark fürs Leben!</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+      </div>
+    </div>
+  </footer>
+
+  <template id="child-template">
+    <div class="child-card">
+      <div class="child-card-head">
+        <h3></h3>
+        <button
+          class="remove-child"
+          type="button"
+          aria-label="Kind entfernen"
+        >
+          Entfernen
+        </button>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Vorname *</label>
+          <input
+            data-field="first_name"
+            type="text"
+            maxlength="100"
+            autocomplete="off"
+            required
+          >
+        </div>
+
+        <div class="form-field">
+          <label>Nachname *</label>
+          <input
+            data-field="last_name"
+            type="text"
+            maxlength="100"
+            autocomplete="off"
+            required
+          >
+        </div>
+
+        <div class="form-field">
+          <label>Klasse *</label>
+          <input
+            data-field="class_name"
+            type="text"
+            maxlength="50"
+            placeholder="z. B. 2a"
+            required
+          >
+        </div>
+
+        <div class="form-field">
+          <label>Schuljahr *</label>
+          <input
+            data-field="school_year"
+            type="text"
+            maxlength="20"
+            value="2026/27"
+            placeholder="z. B. 2026/27"
+            required
+          >
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    const SUBMIT_URL =
+      'https://mcylwcpupmursioqrvhn.supabase.co/functions/v1/submit-membership-application';
+
+    const form = document.getElementById('membership-form');
+    const childrenList = document.getElementById('children-list');
+    const childTemplate = document.getElementById('child-template');
+    const addChildButton = document.getElementById('add-child');
+    const submitButton = document.getElementById('submit-button');
+    const formStatus = document.getElementById('form-status');
+
+    const menuButton = document.querySelector('.menu-button');
+    const nav = document.querySelector('.nav');
+
+    menuButton.addEventListener('click', () => {
+      const open = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!open));
+      nav.classList.toggle('open');
+    });
+
+    nav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        menuButton.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('open');
+      });
+    });
+
+    function setStatus(type, message) {
+      formStatus.className = `form-status visible ${type}`;
+      formStatus.textContent = message;
+    }
+
+    function updateChildren() {
+      const cards = [...childrenList.querySelectorAll('.child-card')];
+
+      cards.forEach((card, index) => {
+        card.querySelector('h3').textContent = `Kind ${index + 1}`;
+
+        const removeButton = card.querySelector('.remove-child');
+        removeButton.hidden = cards.length === 1;
+      });
+
+      addChildButton.disabled = cards.length >= 5;
+    }
+
+    function addChild() {
+      if (childrenList.children.length >= 5) return;
+
+      const fragment = childTemplate.content.cloneNode(true);
+      const card = fragment.querySelector('.child-card');
+
+      card.querySelector('.remove-child').addEventListener('click', () => {
+        card.remove();
+        updateChildren();
+      });
+
+      childrenList.appendChild(fragment);
+      updateChildren();
+    }
+
+    function collectChildren() {
+      return [...childrenList.querySelectorAll('.child-card')].map((card) => ({
+        first_name: card.querySelector('[data-field="first_name"]').value.trim(),
+        last_name: card.querySelector('[data-field="last_name"]').value.trim(),
+        class_name: card.querySelector('[data-field="class_name"]').value.trim(),
+        school_year: card.querySelector('[data-field="school_year"]').value.trim(),
+      }));
+    }
+
+    addChildButton.addEventListener('click', addChild);
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      formStatus.className = 'form-status';
+      formStatus.textContent = '';
+
+      if (!form.reportValidity()) {
+        return;
+      }
+
+      const annualFee = Number(
+        document.getElementById('annual-fee').value.replace(',', '.')
+      );
+
+      if (!Number.isFinite(annualFee) || annualFee < 12) {
+        setStatus(
+          'error',
+          'Der Jahresbeitrag muss mindestens 12 € betragen.'
+        );
+        return;
+      }
+
+      const children = collectChildren();
+
+      if (children.length < 1 || children.length > 5) {
+        setStatus(
+          'error',
+          'Bitte geben Sie zwischen einem und fünf Kindern an.'
+        );
+        return;
+      }
+
+      const payload = {
+        first_name: document.getElementById('first-name').value.trim(),
+        last_name: document.getElementById('last-name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        annual_fee: annualFee,
+        notes: document.getElementById('notes').value.trim(),
+        website: document.getElementById('website').value,
+        children,
+      };
+
+      submitButton.disabled = true;
+      submitButton.textContent = 'Wird gesendet …';
+
+      try {
+        const response = await fetch(SUBMIT_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const result = await response.json().catch(() => null);
+
+        if (!response.ok || !result?.ok) {
+          throw new Error(
+            result?.error || 'Der Antrag konnte nicht gesendet werden.'
+          );
+        }
+
+        form.reset();
+
+        childrenList.innerHTML = '';
+        addChild();
+
+        document.getElementById('annual-fee').value = '12';
+
+        setStatus(
+          'success',
+          'Vielen Dank. Wir haben Ihnen eine Bestätigungs-E-Mail gesendet. Bitte bestätigen Sie Ihre E-Mail-Adresse innerhalb von 24 Stunden. Erst danach wird Ihr Antrag an den Förderverein übermittelt.'
+        );
+
+        formStatus.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      } catch (error) {
+        setStatus(
+          'error',
+          error instanceof Error
+            ? error.message
+            : 'Der Antrag konnte derzeit nicht gesendet werden.'
+        );
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Beitrittsantrag absenden';
+      }
+    });
+
+    addChild();
+  </script>
+</body>
+</html>

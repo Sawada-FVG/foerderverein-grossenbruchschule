@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Beitritt bestätigen | Förderverein der Großenbruchschule Essen e.V.</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+
+  <style>
+    .verify-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .verify-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 10px 24px rgba(36,34,51,.045);
+      padding: 34px;
+    }
+
+    .verify-card h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 0 0 18px;
+      color: #25202d;
+    }
+
+    .verify-card p {
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .verify-actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    button.button {
+      cursor: pointer;
+      font: inherit;
+    }
+
+    button.button:disabled {
+      cursor: wait;
+      opacity: .65;
+      transform: none;
+    }
+
+    .verify-status {
+      display: none;
+      margin-top: 24px;
+      padding: 16px 18px;
+      border-radius: 14px;
+      line-height: 1.55;
+    }
+
+    .verify-status.visible {
+      display: block;
+    }
+
+    .verify-status.success {
+      background: #eef8f3;
+      border: 1px solid #b9dfcd;
+      color: #174d39;
+    }
+
+    .verify-status.error {
+      background: #fff3f3;
+      border: 1px solid #efc5c5;
+      color: #7c2424;
+    }
+
+    @media (max-width: 650px) {
+      .verify-card {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a
+        class="brand"
+        href="index.html"
+        aria-label="Startseite Förderverein der Großenbruchschule"
+      >
+        <img
+          src="logo-foerderverein.png"
+          alt="Logo des Fördervereins der Großenbruchschule"
+        >
+        <span>
+          Förderverein<br>
+          <strong>Großenbruchschule</strong>
+        </span>
+      </a>
+
+      <button
+        class="menu-button"
+        aria-expanded="false"
+        aria-controls="nav"
+      >
+        Menü
+      </button>
+
+      <nav id="nav" class="nav" aria-label="Hauptnavigation">
+        <a href="index.html#ueber-uns">Über uns</a>
+        <a href="index.html#projekte">Was wir fördern</a>
+        <a href="index.html#aktivitaeten">Aktivitäten</a>
+        <a href="index.html#termine">Termine</a>
+        <a href="index.html#unterstuetzen">Unterstützen</a>
+        <a href="index.html#downloads">Downloads</a>
+        <a href="index.html#kontakt">Kontakt</a>
+        <a class="button button-small" href="beitritt.html">Mitglied werden</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="inhalt">
+    <section class="section section-soft">
+      <div class="container verify-wrap">
+        <div class="verify-card">
+          <p class="eyebrow">Beitrittsantrag</p>
+
+          <h1>Fast geschafft!</h1>
+
+          <p id="intro-text">
+            Bitte schließen Sie Ihren Beitrittsantrag mit einem Klick ab.
+          </p>
+
+          <div class="verify-actions">
+            <button id="verify-button" class="button" type="button">
+              Beitritt bestätigen
+            </button>
+
+            <a class="button button-secondary" href="index.html">
+              Zur Startseite
+            </a>
+          </div>
+
+          <div
+            id="verify-status"
+            class="verify-status"
+            role="status"
+            aria-live="polite"
+          ></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>Förderverein der Großenbruchschule Essen e.V.</strong>
+        <p>Gemeinsam mehr bewegen – stark fürs Leben!</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const VERIFY_URL =
+      'https://mcylwcpupmursioqrvhn.supabase.co/functions/v1/verify-membership-application';
+
+    const verifyButton = document.getElementById('verify-button');
+    const verifyStatus = document.getElementById('verify-status');
+    const introText = document.getElementById('intro-text');
+
+    const menuButton = document.querySelector('.menu-button');
+    const nav = document.querySelector('.nav');
+
+    menuButton.addEventListener('click', () => {
+      const open = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!open));
+      nav.classList.toggle('open');
+    });
+
+    nav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        menuButton.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('open');
+      });
+    });
+
+    function setStatus(type, message) {
+      verifyStatus.className = `verify-status visible ${type}`;
+      verifyStatus.textContent = message;
+    }
+
+    const token = new URLSearchParams(window.location.search).get('token');
+
+    if (!token || !/^[0-9a-f]{64}$/.test(token)) {
+      verifyButton.disabled = true;
+      introText.textContent =
+        'Der Bestätigungslink ist ungültig oder unvollständig.';
+
+      setStatus(
+        'error',
+        'Bitte öffnen Sie den vollständigen Bestätigungslink aus Ihrer E-Mail.'
+      );
+    }
+
+    verifyButton.addEventListener('click', async () => {
+      if (!token || !/^[0-9a-f]{64}$/.test(token)) {
+        return;
+      }
+
+      verifyButton.disabled = true;
+      verifyButton.textContent = 'Wird bestätigt …';
+
+      try {
+        const response = await fetch(VERIFY_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token }),
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            response.status === 400
+              ? 'Der Bestätigungslink ist ungültig oder abgelaufen.'
+              : 'Die Bestätigung konnte derzeit nicht verarbeitet werden.'
+          );
+        }
+
+        setStatus(
+          'success',
+          'Vielen Dank! Ihre E-Mail-Adresse wurde erfolgreich bestätigt und Ihr Beitrittsantrag an den Förderverein übermittelt.'
+        );
+
+        introText.textContent =
+          'Die Bestätigung wurde erfolgreich abgeschlossen.';
+
+        verifyButton.textContent = 'Bestätigt ✓';
+        verifyButton.disabled = true;
+
+        window.history.replaceState(
+          {},
+          document.title,
+          window.location.pathname
+        );
+      } catch (error) {
+        setStatus(
+          'error',
+          error instanceof Error
+            ? error.message
+            : 'Die Bestätigung konnte derzeit nicht verarbeitet werden.'
+        );
+
+        verifyButton.disabled = false;
+        verifyButton.textContent = 'Beitritt bestätigen';
+      }
+    });
+  </script>
+</body>
+</html>
