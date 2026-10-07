@@ -175,8 +175,13 @@
   </footer>
 
   <script>
-    const VERIFY_URL =
-      'https://mcylwcpupmursioqrvhn.supabase.co/functions/v1/verify-membership-application';
+    const IS_LOCAL =
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1';
+
+    const VERIFY_URL = IS_LOCAL
+      ? 'https://mcylwcpupmursioqrvhn.supabase.co/functions/v1/verify-membership-application'
+      : 'https://facmeyitnpnwidpsemkd.supabase.co/functions/v1/verify-membership-application';
 
     const verifyButton = document.getElementById('verify-button');
     const verifyStatus = document.getElementById('verify-status');

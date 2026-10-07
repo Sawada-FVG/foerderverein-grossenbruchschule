@@ -545,8 +545,13 @@
   </template>
 
   <script>
-    const SUBMIT_URL =
-      'https://mcylwcpupmursioqrvhn.supabase.co/functions/v1/submit-membership-application';
+    const IS_LOCAL =
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1';
+
+    const SUBMIT_URL = IS_LOCAL
+      ? 'https://mcylwcpupmursioqrvhn.supabase.co/functions/v1/submit-membership-application'
+      : 'https://facmeyitnpnwidpsemkd.supabase.co/functions/v1/submit-membership-application';
 
     const form = document.getElementById('membership-form');
     const childrenList = document.getElementById('children-list');
