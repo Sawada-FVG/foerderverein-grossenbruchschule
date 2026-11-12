@@ -56,3 +56,27 @@ img{max-width:100%;display:block}
 .legal{max-width:900px;padding-top:54px;padding-bottom:76px}.legal h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(2.4rem,5vw,4rem);margin:.2em 0 .7em}.legal h2{margin-top:34px}.legal p,.legal li,.legal dd{color:#504a55}.legal dt{font-weight:800;margin-top:16px}.legal dd{margin-left:0}
 @media(max-width:960px){.nav{display:none;position:absolute;top:82px;left:0;right:0;background:#fff;padding:18px 20px 24px;border-bottom:1px solid var(--line);flex-direction:column;align-items:flex-start}.nav.open{display:flex}.menu-button{display:inline-block;border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px}.hero-grid,.two-col,.contact-grid{grid-template-columns:1fr}.hero-visual{min-height:360px}.cards{grid-template-columns:1fr 1fr}.support-grid{grid-template-columns:1fr}.cta-grid{grid-template-columns:1fr}.activity-grid{grid-template-columns:1fr 1fr}.activity-photo-card{grid-row:auto}}
 @media(max-width:650px){.container{width:min(100% - 28px,1120px)}.section{padding:60px 0}.hero{padding:48px 0 60px}.hero h1{font-size:2.65rem}.brand span{display:none}.brand img{width:58px;height:58px}.hero-visual{min-height:300px}.orbit-one{width:290px;height:290px}.orbit-two{width:350px;height:350px}.cards,.activity-grid,.download-grid{grid-template-columns:1fr}.activity-photo-card img{height:260px}.footer-grid{flex-direction:column;align-items:flex-start}}
+
+/* Schulhomepage-Verlinkung */
+.school-layout {
+  align-items: start;
+}
+
+.school-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 22px;
+  box-shadow: 0 10px 24px rgba(36, 34, 51, .08);
+}
+
+/* Schulverlinkung und rechtliche Links im Footer */
+.footer-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.footer-school a {
+  color: #ffffff;
+}
